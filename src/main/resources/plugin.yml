@@ -1,0 +1,10 @@
+main: games.indigo.safarinets.SafariNets
+name: SafariNets
+version: 1.0
+author: TheBirmanator
+api-version: 1.14
+description: Capture mobs and carry them around!
+commands:
+  givenet:
+    usage: /<command>
+    description: Give a safari net to a user
