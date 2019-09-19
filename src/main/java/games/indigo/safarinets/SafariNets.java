@@ -1,24 +1,21 @@
 package games.indigo.safarinets;
 
-import games.indigo.safarinets.api.NetType;
-import games.indigo.safarinets.api.SafariNet;
+import games.indigo.safarinets.api.Net;
 import games.indigo.safarinets.commands.GiveNetCmd;
 import games.indigo.safarinets.listeners.CreatureSpawnListener;
 import games.indigo.safarinets.listeners.PlayerInteractListener;
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.lang.reflect.Constructor;
 
 public class SafariNets extends JavaPlugin {
 
 	private GiveNetCmd giveNetCmd = new GiveNetCmd();
+
+	private static SafariNets instance;
 	//TODO: recipes
 	public void onEnable() {
+	    instance = this;
 		loadNets();
 		getCommand(giveNetCmd.givenet).setExecutor(giveNetCmd);
 		getServer().getPluginManager().registerEvents(new PlayerInteractListener(), this);
@@ -26,31 +23,21 @@ public class SafariNets extends JavaPlugin {
 	}
 
 	private void loadNets() {
-		for(NetType netType : NetType.values()) {
-			ItemStack itemStack = new ItemStack(Material.STICK);
-			ItemMeta meta = itemStack.getItemMeta();
-			String displayName;
-			int typeLine = SafariNet.getTypeLineIndicator();
-			List<String> lore = new ArrayList<>();
-			switch (netType) {
-				case SINGLE_USE:
-					displayName = ChatColor.BLUE + "Empty Safari Net";
-					lore.add(typeLine, netType.getNetName());
-					meta.setCustomModelData(29);
-					break;
-				case MULTI_USE:
-					displayName = ChatColor.AQUA + "Empty Safari Net";
-					lore.add(typeLine, netType.getNetName());
-					meta.setCustomModelData(30);
-					break;
-				default:
-					displayName = "";
-					break;
+		String[] netClasses = {"SingleUseNet", "MultiUseNet"};
+		String packageName = "games.indigo.safarinets.api.nets";
+		for(String netClassName : netClasses) {
+			try {
+				Class<?> netClass = Class.forName(packageName + "." + netClassName);
+				Constructor<?> netConstructor = netClass.getConstructor();
+				Net net = (Net) netConstructor.newInstance();
+				net.createRecipe();
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
-			meta.setDisplayName(displayName);
-			meta.setLore(lore);
-			itemStack.setItemMeta(meta);
-			SafariNet.setEmptyTypeToItem(netType, itemStack);
 		}
 	}
+
+	public static SafariNets getInstance() {
+	    return instance;
+    }
 }
