@@ -16,6 +16,7 @@ public class SafariNets extends JavaPlugin {
 	//TODO: recipes
 	public void onEnable() {
 	    instance = this;
+	    saveDefaultConfig();
 		loadNets();
 		getCommand(giveNetCmd.givenet).setExecutor(giveNetCmd);
 		getServer().getPluginManager().registerEvents(new PlayerInteractListener(), this);

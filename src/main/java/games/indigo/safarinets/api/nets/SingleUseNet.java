@@ -1,5 +1,6 @@
 package games.indigo.safarinets.api.nets;
 
+import games.indigo.safarinets.SafariNets;
 import games.indigo.safarinets.api.Net;
 import games.indigo.safarinets.api.NetType;
 import org.bukkit.Bukkit;
@@ -13,7 +14,7 @@ public class SingleUseNet extends Net {
         super(NetType.SINGLE_USE, Net.createItem(Material.STICK,
                 ChatColor.BLUE + "Empty Safari Net",
                 NetType.SINGLE_USE,
-                29));
+                SafariNets.getInstance().getConfig().getInt("model-data.single_use")));
     }
 
     @Override

@@ -10,13 +10,13 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.SpawnEggMeta;
 
 import java.util.*;
 
 public class SafariNet {
 
     private ItemStack net;
-    private Material fullNetItem = Material.GHAST_SPAWN_EGG;
 
     static Set<Net> nets = new HashSet<>();
 
@@ -25,15 +25,13 @@ public class SafariNet {
     }
 
     public boolean isFullNet() {
-        if(net.getType() == fullNetItem) {
-            if(net.hasItemMeta()) {
-                ItemMeta meta = net.getItemMeta();
-                if (meta.hasLore() && meta.getLore().size() > Net.getTypeLine()) {
-                    String typeLine = meta.getLore().get(Net.getTypeLine());
-                    for(NetType netType : NetType.values()) {
-                        if(typeLine.equals(netType.getNetName())) {
-                            return true;
-                        }
+        if(net.hasItemMeta() && net.getItemMeta() instanceof SpawnEggMeta) {
+            ItemMeta meta = net.getItemMeta();
+            if (meta.hasLore() && meta.getLore().size() > Net.getTypeLine()) {
+                String typeLine = meta.getLore().get(Net.getTypeLine());
+                for(NetType netType : NetType.values()) {
+                    if(typeLine.equals(netType.getNetName())) {
+                        return true;
                     }
                 }
             }
@@ -60,7 +58,8 @@ public class SafariNet {
         // Remove position tag from entityTag so that the mob doesn't spawn where it was picked up
         entityTag.remove("Pos");
 
-        ItemStack net = new ItemStack(fullNetItem);
+        String spawnEggName = entity.getType().name() + "_SPAWN_EGG";
+        ItemStack net = new ItemStack(Material.valueOf(spawnEggName));
 
         net.minecraft.server.v1_14_R1.ItemStack nmsNet = CraftItemStack.asNMSCopy(net);
 

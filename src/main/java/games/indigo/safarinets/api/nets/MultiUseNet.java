@@ -1,5 +1,6 @@
 package games.indigo.safarinets.api.nets;
 
+import games.indigo.safarinets.SafariNets;
 import games.indigo.safarinets.api.Net;
 import games.indigo.safarinets.api.NetType;
 import games.indigo.safarinets.api.SafariNet;
@@ -15,7 +16,7 @@ public class MultiUseNet extends Net {
         super(NetType.MULTI_USE, Net.createItem(Material.STICK,
                 ChatColor.AQUA + "Empty Safari Net",
                 NetType.MULTI_USE,
-                30));
+                SafariNets.getInstance().getConfig().getInt("model-data.multi_use")));
     }
 
     @Override
