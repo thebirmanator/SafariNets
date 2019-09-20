@@ -15,12 +15,14 @@ public class SingleUseNet extends Net {
                 NetType.SINGLE_USE,
                 29));
     }
-    //TODO: actual recipe
+
     @Override
     public void createRecipe() {
         ShapedRecipe recipe = new ShapedRecipe(getNameSpacedKey(), getItem());
-        recipe.shape("DDD");
-        recipe.setIngredient('D', Material.DIAMOND_BLOCK);
+        recipe.shape("SBS", "BIB", "SBS");
+        recipe.setIngredient('S', Material.STRING);
+        recipe.setIngredient('B', Material.IRON_BARS);
+        recipe.setIngredient('I', Material.IRON_INGOT);
 
         Bukkit.addRecipe(recipe);
         setRecipe(recipe);

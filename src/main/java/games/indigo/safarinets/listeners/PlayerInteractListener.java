@@ -6,6 +6,7 @@ import games.indigo.safarinets.api.SafariNet;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Sound;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -20,7 +21,8 @@ public class PlayerInteractListener implements Listener {
 
 	@EventHandler
 	public void onInteractEntity(PlayerInteractEntityEvent event) {
-	    if(event.getRightClicked() instanceof LivingEntity) {
+	    Entity entity = event.getRightClicked();
+	    if(entity instanceof LivingEntity && !(entity instanceof Player)) {
             Player player = event.getPlayer();
             ItemStack item = player.getInventory().getItemInMainHand();
             SafariNet net = new SafariNet(item);
@@ -33,10 +35,10 @@ public class PlayerInteractListener implements Listener {
                     }
                     // epic sound design
                     player.getWorld().playSound(player.getLocation(), Sound.BLOCK_IRON_DOOR_CLOSE, 1, 2);
-                    String mobSound = "entity." + event.getRightClicked().getType().name().toLowerCase() + ".hurt";
+                    String mobSound = "entity." + entity.getType().name().toLowerCase() + ".hurt";
                     player.getWorld().playSound(player.getLocation(), mobSound, 1, 1.2f);
 
-                    ItemStack fullNet = net.capture(event.getRightClicked());
+                    ItemStack fullNet = net.capture(entity);
                     player.getInventory().addItem(fullNet);
                     event.setCancelled(true);
                 }

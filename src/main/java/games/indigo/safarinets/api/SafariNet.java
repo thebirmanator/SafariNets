@@ -24,15 +24,6 @@ public class SafariNet {
         this.net = net;
     }
 
-    public static ItemStack getEmptyNet(NetType type) {
-        for(Net net : nets) {
-            if(net.getNetType().equals(type)) {
-                return net.getItem();
-            }
-        }
-        return null;
-    }
-
     public boolean isFullNet() {
         if(net.getType() == fullNetItem) {
             if(net.hasItemMeta()) {
@@ -98,7 +89,7 @@ public class SafariNet {
         fullNet.setItemMeta(meta);
     }
 
-    private static String friendlyMobName(EntityType type) {
+    private String friendlyMobName(EntityType type) {
         String name = type.name().toLowerCase();
         name = name.replace("_", " ");
         name = WordUtils.capitalize(name);
@@ -111,6 +102,15 @@ public class SafariNet {
                 if (net.getItemMeta().getLore().get(Net.getTypeLine()).equals(type.getNetName())) {
                     return type;
                 }
+            }
+        }
+        return null;
+    }
+
+    public static ItemStack getEmptyNet(NetType type) {
+        for(Net net : nets) {
+            if(net.getNetType().equals(type)) {
+                return net.getItem();
             }
         }
         return null;
