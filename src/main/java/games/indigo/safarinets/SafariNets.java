@@ -13,7 +13,6 @@ public class SafariNets extends JavaPlugin {
 	private GiveNetCmd giveNetCmd = new GiveNetCmd();
 
 	private static SafariNets instance;
-	//TODO: recipes
 	public void onEnable() {
 	    instance = this;
 	    saveDefaultConfig();

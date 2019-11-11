@@ -57,6 +57,9 @@ public class SafariNet {
 
         // Remove position tag from entityTag so that the mob doesn't spawn where it was picked up
         entityTag.remove("Pos");
+        // Remove UUID tags to generate a new UUID, so that it will not conflict with other mobs
+        entityTag.remove("UUIDLeast");
+        entityTag.remove("UUIDMost");
 
         String spawnEggName = entity.getType().name() + "_SPAWN_EGG";
         ItemStack net = new ItemStack(Material.valueOf(spawnEggName));
@@ -84,7 +87,13 @@ public class SafariNet {
         lore.add(Net.getTypeLine(), getNetType().getNetName());
         lore.add(ChatColor.AQUA + friendlyMobName(entity.getType()));
         meta.setLore(lore);
-        meta.setCustomModelData(net.getItemMeta().getCustomModelData());
+        int modelData = 0;
+        if(getNetType() == NetType.SINGLE_USE) {
+            modelData = 1;
+        } else if(getNetType() == NetType.MULTI_USE) {
+            modelData = 2;
+        }
+        meta.setCustomModelData(modelData);
         fullNet.setItemMeta(meta);
     }
 
