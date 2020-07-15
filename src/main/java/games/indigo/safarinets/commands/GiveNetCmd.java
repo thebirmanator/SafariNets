@@ -8,10 +8,14 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-public class GiveNetCmd implements CommandExecutor {
+import java.util.ArrayList;
+import java.util.List;
+
+public class GiveNetCmd implements CommandExecutor, TabCompleter {
 
     public String givenet = "givenet";
     private String[] helpMsg = {ChatColor.AQUA + "/givenet " +
@@ -55,5 +59,20 @@ public class GiveNetCmd implements CommandExecutor {
             sender.sendMessage(ChatColor.RED + "Sorry, you do not have permission to use this command.");
             return true;
         }
+    }
+
+    @Override
+    public List<String> onTabComplete(CommandSender sender, Command cmd, String label, String[] args) {
+        List<String> suggestions = new ArrayList<>();
+        if (args.length == 1) {
+            suggestions.add("single_use");
+            suggestions.add("multi_use");
+        } else {
+            suggestions.add("1");
+            suggestions.add("4");
+            suggestions.add("8");
+            suggestions.add("16");
+        }
+        return suggestions;
     }
 }

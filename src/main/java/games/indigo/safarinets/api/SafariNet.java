@@ -1,11 +1,11 @@
 package games.indigo.safarinets.api;
 
-import net.minecraft.server.v1_14_R1.NBTTagCompound;
+import net.minecraft.server.v1_15_R1.NBTTagCompound;
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.craftbukkit.v1_14_R1.entity.CraftEntity;
-import org.bukkit.craftbukkit.v1_14_R1.inventory.CraftItemStack;
+import org.bukkit.craftbukkit.v1_15_R1.entity.CraftEntity;
+import org.bukkit.craftbukkit.v1_15_R1.inventory.CraftItemStack;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
@@ -49,7 +49,7 @@ public class SafariNet {
     }
 
     public ItemStack capture(Entity entity) {
-        net.minecraft.server.v1_14_R1.Entity nmsEntity = ((CraftEntity)entity).getHandle();
+        net.minecraft.server.v1_15_R1.Entity nmsEntity = ((CraftEntity)entity).getHandle();
         NBTTagCompound entityTag = new NBTTagCompound();
 
         // Set the new entityTag to nmsEntity's entity data
@@ -64,7 +64,7 @@ public class SafariNet {
         String spawnEggName = entity.getType().name() + "_SPAWN_EGG";
         ItemStack net = new ItemStack(Material.valueOf(spawnEggName));
 
-        net.minecraft.server.v1_14_R1.ItemStack nmsNet = CraftItemStack.asNMSCopy(net);
+        net.minecraft.server.v1_15_R1.ItemStack nmsNet = CraftItemStack.asNMSCopy(net);
 
         // Set the spawn egg's nbt tag to the captured mob's entity tag
         NBTTagCompound netTag = nmsNet.getTag();
