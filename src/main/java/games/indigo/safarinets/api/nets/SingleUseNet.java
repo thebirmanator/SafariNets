@@ -11,7 +11,7 @@ import org.bukkit.inventory.ShapedRecipe;
 public class SingleUseNet extends Net {
 
     public SingleUseNet() {
-        super(NetType.SINGLE_USE, Net.createItem(Material.STICK,
+        super(NetType.SINGLE_USE, Net.createItem(Material.EGG,
                 ChatColor.BLUE + "Empty Safari Net",
                 NetType.SINGLE_USE,
                 SafariNets.getInstance().getConfig().getInt("model-data.single_use")));
