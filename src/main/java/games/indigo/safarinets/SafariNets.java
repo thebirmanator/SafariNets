@@ -10,34 +10,35 @@ import java.lang.reflect.Constructor;
 
 public class SafariNets extends JavaPlugin {
 
-	private GiveNetCmd giveNetCmd = new GiveNetCmd();
+    private GiveNetCmd giveNetCmd = new GiveNetCmd();
 
-	private static SafariNets instance;
-	public void onEnable() {
-	    instance = this;
-	    saveDefaultConfig();
-		loadNets();
-		getCommand(giveNetCmd.givenet).setExecutor(giveNetCmd);
-		getServer().getPluginManager().registerEvents(new PlayerInteractListener(), this);
-		getServer().getPluginManager().registerEvents(new CreatureSpawnListener(), this);
-	}
+    private static SafariNets instance;
 
-	private void loadNets() {
-		String[] netClasses = {"SingleUseNet", "MultiUseNet"};
-		String packageName = "games.indigo.safarinets.api.nets";
-		for(String netClassName : netClasses) {
-			try {
-				Class<?> netClass = Class.forName(packageName + "." + netClassName);
-				Constructor<?> netConstructor = netClass.getConstructor();
-				Net net = (Net) netConstructor.newInstance();
-				net.createRecipe();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-	}
+    public void onEnable() {
+        instance = this;
+        saveDefaultConfig();
+        loadNets();
+        getCommand(giveNetCmd.givenet).setExecutor(giveNetCmd);
+        getServer().getPluginManager().registerEvents(new PlayerInteractListener(), this);
+        getServer().getPluginManager().registerEvents(new CreatureSpawnListener(), this);
+    }
 
-	public static SafariNets getInstance() {
-	    return instance;
+    private void loadNets() {
+        String[] netClasses = {"SingleUseNet", "MultiUseNet"};
+        String packageName = "games.indigo.safarinets.api.nets";
+        for (String netClassName : netClasses) {
+            try {
+                Class<?> netClass = Class.forName(packageName + "." + netClassName);
+                Constructor<?> netConstructor = netClass.getConstructor();
+                Net net = (Net) netConstructor.newInstance();
+                net.createRecipe();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public static SafariNets getInstance() {
+        return instance;
     }
 }

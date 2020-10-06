@@ -19,10 +19,10 @@ import org.bukkit.inventory.ItemStack;
 
 public class PlayerInteractListener implements Listener {
 
-	@EventHandler
-	public void onInteractEntity(PlayerInteractEntityEvent event) {
-	    Entity entity = event.getRightClicked();
-	    if(entity instanceof LivingEntity && !(entity instanceof Player)) {
+    @EventHandler
+    public void onInteractEntity(PlayerInteractEntityEvent event) {
+        Entity entity = event.getRightClicked();
+        if (entity instanceof LivingEntity && !(entity instanceof Player)) {
             Player player = event.getPlayer();
             ItemStack item = player.getInventory().getItemInMainHand();
             SafariNet net = new SafariNet(item);
@@ -44,26 +44,26 @@ public class PlayerInteractListener implements Listener {
                 }
             }
         }
-	}
+    }
 
-	@EventHandler
+    @EventHandler
     public void onInteract(PlayerInteractEvent event) {
-	    Player player = event.getPlayer();
-	    if(event.hasItem() && event.getAction() == Action.RIGHT_CLICK_BLOCK) {
+        Player player = event.getPlayer();
+        if (event.hasItem() && event.getAction() == Action.RIGHT_CLICK_BLOCK) {
             ItemStack item = event.getItem();
             SafariNet net = new SafariNet(item);
             if (event.getHand() == EquipmentSlot.HAND) {
-                if(net.isFullNet()) {
+                if (net.isFullNet()) {
                     NetType netType = net.getNetType();
                     player.getWorld().playSound(player.getLocation(), Sound.BLOCK_IRON_DOOR_OPEN, 1, 2);
                     // wait a tick so that it can spawn the mob. Will crash without this!
                     Bukkit.getScheduler().scheduleSyncDelayedTask(SafariNets.getPlugin(SafariNets.class), new Runnable() {
                         @Override
                         public void run() {
-                            if(player.getGameMode() == GameMode.CREATIVE) {
+                            if (player.getGameMode() == GameMode.CREATIVE) {
                                 player.getInventory().removeItem(item);
                             }
-                            if(netType == NetType.MULTI_USE) {
+                            if (netType == NetType.MULTI_USE) {
                                 player.getInventory().addItem(SafariNet.getEmptyNet(netType));
                             }
                         }

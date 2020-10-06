@@ -21,24 +21,24 @@ public class GiveNetCmd implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-        if(sender.hasPermission("safarinets.command.give")) {
-            if(args.length >= 1) {
+        if (sender.hasPermission("safarinets.command.give")) {
+            if (args.length >= 1) {
                 Player giveTo = null;
                 NetType type = null;
                 int amount = 1;
-                for(String arg : args) {
-                    if(Bukkit.getPlayer(arg) != null) {
+                for (String arg : args) {
+                    if (Bukkit.getPlayer(arg) != null) {
                         giveTo = Bukkit.getPlayer(arg);
-                    } else if(NetType.getNetType(arg) != null) {
+                    } else if (NetType.getNetType(arg) != null) {
                         type = NetType.valueOf(arg.toUpperCase());
-                    } else if(StringUtils.isNumeric(arg)) {
+                    } else if (StringUtils.isNumeric(arg)) {
                         amount = Integer.parseInt(arg);
                     }
                 }
-                if(giveTo == null && sender instanceof Player) {
+                if (giveTo == null && sender instanceof Player) {
                     giveTo = (Player) sender;
                 }
-                if(giveTo != null && type != null) {
+                if (giveTo != null && type != null) {
                     ItemStack net = SafariNet.getEmptyNet(type);
                     net.setAmount(amount);
                     giveTo.getInventory().addItem(net);

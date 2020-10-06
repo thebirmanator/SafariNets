@@ -12,7 +12,10 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SpawnEggMeta;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public class SafariNet {
 
@@ -25,12 +28,12 @@ public class SafariNet {
     }
 
     public boolean isFullNet() {
-        if(net.hasItemMeta() && net.getItemMeta() instanceof SpawnEggMeta) {
+        if (net.hasItemMeta() && net.getItemMeta() instanceof SpawnEggMeta) {
             ItemMeta meta = net.getItemMeta();
             if (meta.hasLore() && meta.getLore().size() > Net.getTypeLine()) {
                 String typeLine = meta.getLore().get(Net.getTypeLine());
-                for(NetType netType : NetType.values()) {
-                    if(typeLine.equals(netType.getNetName())) {
+                for (NetType netType : NetType.values()) {
+                    if (typeLine.equals(netType.getNetName())) {
                         return true;
                     }
                 }
@@ -40,8 +43,8 @@ public class SafariNet {
     }
 
     public boolean isEmptyNet() {
-        for(NetType netType : NetType.values()) {
-            if(net.isSimilar(getEmptyNet(netType))) {
+        for (NetType netType : NetType.values()) {
+            if (net.isSimilar(getEmptyNet(netType))) {
                 return true;
             }
         }
@@ -49,7 +52,7 @@ public class SafariNet {
     }
 
     public ItemStack capture(Entity entity) {
-        net.minecraft.server.v1_14_R1.Entity nmsEntity = ((CraftEntity)entity).getHandle();
+        net.minecraft.server.v1_14_R1.Entity nmsEntity = ((CraftEntity) entity).getHandle();
         NBTTagCompound entityTag = new NBTTagCompound();
 
         // Set the new entityTag to nmsEntity's entity data
@@ -68,7 +71,7 @@ public class SafariNet {
 
         // Set the spawn egg's nbt tag to the captured mob's entity tag
         NBTTagCompound netTag = nmsNet.getTag();
-        if(netTag == null) {
+        if (netTag == null) {
             netTag = new NBTTagCompound();
             netTag.set("EntityTag", entityTag);
         }
@@ -88,9 +91,9 @@ public class SafariNet {
         lore.add(ChatColor.AQUA + friendlyMobName(entity.getType()));
         meta.setLore(lore);
         int modelData = 0;
-        if(getNetType() == NetType.SINGLE_USE) {
+        if (getNetType() == NetType.SINGLE_USE) {
             modelData = 1;
-        } else if(getNetType() == NetType.MULTI_USE) {
+        } else if (getNetType() == NetType.MULTI_USE) {
             modelData = 2;
         }
         meta.setCustomModelData(modelData);
@@ -105,7 +108,7 @@ public class SafariNet {
     }
 
     public NetType getNetType() {
-        if(isEmptyNet() || isFullNet()) {
+        if (isEmptyNet() || isFullNet()) {
             for (NetType type : NetType.values()) {
                 if (net.getItemMeta().getLore().get(Net.getTypeLine()).equals(type.getNetName())) {
                     return type;
@@ -116,8 +119,8 @@ public class SafariNet {
     }
 
     public static ItemStack getEmptyNet(NetType type) {
-        for(Net net : nets) {
-            if(net.getNetType().equals(type)) {
+        for (Net net : nets) {
+            if (net.getNetType().equals(type)) {
                 return net.getItem();
             }
         }

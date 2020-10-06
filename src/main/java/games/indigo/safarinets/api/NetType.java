@@ -17,8 +17,8 @@ public enum NetType {
     }
 
     public static NetType getNetType(String from) {
-        for(NetType type : values()) {
-            if(type.name().equalsIgnoreCase(from)) {
+        for (NetType type : values()) {
+            if (type.name().equalsIgnoreCase(from)) {
                 return type;
             }
         }
